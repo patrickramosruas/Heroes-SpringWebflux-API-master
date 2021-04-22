@@ -3,6 +3,7 @@ package com.digitalinnovation.livecoding.controller;
 import com.digitalinnovation.livecoding.document.Heroes;
 import com.digitalinnovation.livecoding.repository.HeroesRepository;
 import com.digitalinnovation.livecoding.service.HeroesService;
+import com.digitalinnovation.livecoding.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

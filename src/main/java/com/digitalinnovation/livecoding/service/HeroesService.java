@@ -1,7 +1,9 @@
 package com.digitalinnovation.livecoding.service;
 
+
 import com.digitalinnovation.livecoding.document.Heroes;
 import com.digitalinnovation.livecoding.repository.HeroesRepository;
+import com.digitalinnovation.livecoding.exceptions.*;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,8 +23,7 @@ public class HeroesService {
   }
 
   public  Mono<Heroes> findByIdHero(String id){
-
-    return  Mono.justOrEmpty(this.heroesRepository.findById(id));
+    return  Mono.justOrEmpty(this.heroesRepository.findById(id)).switchIfEmpty(Mono.error(new HeroNotFoundException(id)));
   }
 
 
@@ -36,9 +37,17 @@ public class HeroesService {
     return Mono.just(true);
   }
 
-  public Mono<Heroes> updateByIDHero(String id, Heroes heroes) {
-    return  Mono.justOrEmpty(this.heroesRepository.save(heroes));
+  public Mono<Heroes> verifyIfExists(String id){
+    return findByIdHero(id).switchIfEmpty(Mono.error(new HeroNotFoundException(id)));
   }
 
+  public Mono<Heroes> updateByIDHero(String id, Heroes heroes){
+
+    if(!findByIdHero(id).equals(Mono.empty())){
+      return Mono.just(this.heroesRepository.save(heroes));
+    }
+    return Mono.error(new HeroNotFoundException(id));
+
+  }
 }
 
