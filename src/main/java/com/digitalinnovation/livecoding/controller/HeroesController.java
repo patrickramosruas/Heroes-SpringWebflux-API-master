@@ -60,6 +60,12 @@ public class HeroesController {
   public Mono<HttpStatus> deletebyIDHero(@PathVariable String id) {
     heroesService.deletebyIDHero(id);
     log.info("Deleting the hero with id {}", id);
-    return Mono.just(HttpStatus.NOT_FOUND);
+    return Mono.just(HttpStatus.NO_CONTENT);
+  }
+
+  @PutMapping(HEROES_ENDPOINT_LOCAL + "/{id}")
+  public Mono<Heroes> updateByIdHero(@PathVariable String id, @RequestBody Heroes heroes){
+    log.info("A Hero was updated");
+    return heroesService.updateByIDHero(id,heroes);
   }
 }
