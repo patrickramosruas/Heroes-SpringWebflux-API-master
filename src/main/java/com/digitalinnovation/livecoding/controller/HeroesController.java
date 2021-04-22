@@ -56,7 +56,7 @@ public class HeroesController {
   }
 
   @DeleteMapping(HEROES_ENDPOINT_LOCAL + "/{id}")
-  @ResponseStatus(code = HttpStatus.NOT_FOUND)
+  @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public Mono<HttpStatus> deletebyIDHero(@PathVariable String id) {
     heroesService.deletebyIDHero(id);
     log.info("Deleting the hero with id {}", id);
